@@ -6,20 +6,13 @@
 <p>This is first blazor project for learning. I have used crud with authentication </p>
 
 <h4> <span> · </span> <a href="https://github.com/mahfuzmorshed/blazor_Inventory/blob/master/README.md"> Documentation </a> <span> · </span> <a href="https://github.com/mahfuzmorshed/blazor_Inventory/issues"> Report Bug </a> <span> · </span> <a href="https://github.com/mahfuzmorshed/blazor_Inventory/issues"> Request Feature </a> </h4>
-
-
 </div>
-
-# :notebook_with_decorative_cover: Table of Contents
-
-- [About the Project](#star2-about-the-project)
-- [Contact](#handshake-contact)
 
 
 ## :star2: About the Project
-
+This is learning project
 ## :wave: Contributing
-
+Mahfuz Morshed
 <a href="https://github.com/mahfuzmorshed/blazor_Inventory/graphs/contributors"> <img src="https://contrib.rocks/image?repo=Louis3797/awesome-readme-template" /> </a>
 
 Contributions are always welcome!
