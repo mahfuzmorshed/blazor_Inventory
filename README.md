@@ -12,8 +12,7 @@
 ## :star2: About the Project
 This is learning project
 ## :wave: Contributing
-<span>Mahfuz Morshed</span>
-<a href="https://github.com/mahfuzmorshed/blazor_Inventory/graphs/contributors"> <img src="https://contrib.rocks/image?repo=Louis3797/awesome-readme-template" /> </a>
+<a href="https://github.com/mahfuzmorshed/blazor_Inventory/graphs/contributors"> <img src="https://contrib.rocks/image?repo=Louis3797/awesome-readme-template" />Mahfuz Morshed </a>
 
 Contributions are always welcome!
 
