@@ -1,6 +1,6 @@
-<div align='center'>
+<div>
 
-<img src=https://media.licdn.com/dms/image/D5616AQEgLOXOSyH5zA/profile-displaybackgroundimage-shrink_350_1400/0/1718989721239?e=1724889600&v=beta&t=Us9tCd7gpYF6eGtPUvNdssSk2FqHrSfoVwuL0_SCpiw alt="logo" width= height= />
+
 
 <h1>Blazor project</h1>
 <p>This is first blazor project for learning. I have used crud with authentication </p>
