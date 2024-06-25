@@ -1,0 +1,40 @@
+@page "/item/createitem"
+@attribute [Authorize]
+@inject Inventory.Client.Shared.IAlertService AlertService
+@inject Inventory.Client.Services.IItemService itemService
+@inject NavigationManager navManager
+@inject Inventory.Client.Shared.PageHistoryState PageHistoryState
+
+<h1>Create Person</h1>
+<br />
+
+<Form ButtonText="Create Person" item="@item" loading="@loading"
+      OnValidSubmit="@CreatePerson" />
+
+@code {
+    bool loading = false;
+
+    Item item = new Item
+        {
+            Name = "",
+        };
+    async Task CreatePerson()
+    {
+        loading = true;
+        try
+        {
+            await itemService.AddItem(item);
+            AlertService.Success("Item save successfully", keepAfterRouteChange: true);
+            if (PageHistoryState.CanGoBack())
+                navManager.NavigateTo(PageHistoryState.GetGoBackPage());
+            else
+                navManager.NavigateTo("/item/1");
+        }
+        catch (Exception ex)
+        {
+            AlertService.Error(ex.Message);
+            loading = false;
+            StateHasChanged();
+        }
+    }
+}

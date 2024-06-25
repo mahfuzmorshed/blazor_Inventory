@@ -1,0 +1,43 @@
+@inherits LayoutComponentBase
+@inject Inventory.Client.Services.IUserService UserService
+
+<nav class="navbar navbar-expand navbar-dark bg-dark">
+    <a class="navbar-brand" href="/">First Blazor CRUD</a>
+    <div class="navbar-nav">
+        <NavLink href="/dashboard/1" class="nav-item nav-link">Home</NavLink>
+        <NavLink href="/item/1" class="nav-item nav-link">Item</NavLink>
+        <NavLink href="/purchase/1" class="nav-item nav-link">Purchase</NavLink>
+        <NavLink href="/swagger/index.html" class="nav-item nav-link" target="_blank">API</NavLink>
+    </div>
+    <div class="navbar-nav ml-auto">
+        @if (LoggedIn)
+        {
+            <NavLink href="/user/logout" class="nav-item nav-link">Logout</NavLink>
+        }
+        @* else
+        {
+            <NavLink href="/user/login" class="nav-item nav-link">Login</NavLink>
+        } *@
+    </div>
+</nav>
+
+<div class="app-container">
+    <div class="p-4">
+        <div class="container">
+            <Alert />
+            @Body
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="container text-center">
+            <span class="text-muted">&copy;MAhfuz 2024</span>
+        </div>
+    </footer>
+</div>
+
+@code {
+    public bool LoggedIn
+    {
+        get {return UserService.User != null;}
+    }
+}

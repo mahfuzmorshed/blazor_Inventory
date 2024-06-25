@@ -1,0 +1,131 @@
+@page "/purchase/{Page}"
+@inject Services.IPurchaseService purchaseService
+@inject Services.IUserService UserService
+@inject Microsoft.AspNetCore.Components.NavigationManager UriHelper
+@inject Inventory.Client.Shared.PageHistoryState PageHistoryState
+
+<h1>Purchase</h1>
+<br />
+
+<div class="row mb-3">
+    <div class="col-md-7">
+        @if (LoggedIn)
+        {
+            <NavLink href="/person/createperson" class="btn btn-sm btn-success mb-2">Add Person</NavLink>
+        }
+    </div>
+    <div class="input-group col-md-5 text-md-right">
+        <input name="PersonSearchInput" type="text" class="form-control" placeholder="Person Name" @bind="this.SearchTerm" @onkeyup="SearchBoxKeyPress" />
+        <div class="input-group-btn">
+            <button name="PersonSearchButton" class="btn btn-default" @onclick="SearchClick">
+                <i class="oi oi-magnifying-glass" title="search" aria-hidden="true"></i>
+            </button>
+        </div>
+        <div class="input-group-btn">
+            <button name="PersonSearchClear" class="btn btn-default" @onclick="ClearSearch">
+                <i class="oi oi-x" title="clear" aria-hidden="true"></i>
+            </button>
+        </div>
+    </div>
+</div>
+
+@if (purchase == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th style="width:25%">Purchase</th>
+                <th style="width:5%"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var p in purchase.Results)
+            {
+                <tr>
+                    <td>@p.Id</td>
+                    <td style="white-space: nowrap">
+                        <NavLink href="@($"/purchase/viewpurchase/{p.Id}")" class="oi oi-eye text-primary mr-3 nounderline"></NavLink>
+                        @if (LoggedIn)
+                        {
+                            <NavLink href="@($"/purchase/updatepurchase/{p.Id}")" class="oi oi-pencil text-warning mr-2 nounderline"></NavLink>
+
+                            <button @onclick="@(() => DeletePerson(p))" class=" btn btn-link oi oi-trash text-danger mr-1 nounderline">
+                                <span></span>
+                            </button>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <Pager Result=@purchase PageChanged=PagerPageChanged />
+}
+
+@code {
+    [Parameter]
+    public string Page { get; set; } = "1";
+    [Parameter]
+    public string SearchTerm { get; set; } = string.Empty;
+    protected PagedResultT<PurchaseMaster> purchase;
+
+    public bool LoggedIn
+    {
+        get { return UserService.User != null; }
+    }
+
+    protected override void OnInitialized()
+    {
+        PageHistoryState.AddPageToHistory(UriHelper.Uri);
+        base.OnInitialized();
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        purchase = await purchaseService.GetSearchByPurchase(null, Page);
+        PageHistoryState.AddPageToHistory(UriHelper.Uri);
+    }
+
+    protected async Task SearchBoxKeyPress(KeyboardEventArgs ev)
+    {
+        if (ev.Key == "Enter")
+        {
+            await SearchClick();
+        }
+    }
+
+    protected async Task SearchClick()
+    {
+        if (string.IsNullOrEmpty(SearchTerm))
+        {
+            purchase = await purchaseService.GetSearchByPurchase(null, Page);
+            return;
+        }
+        purchase = await purchaseService.GetSearchByPurchase(SearchTerm, Page);
+        StateHasChanged();
+    }
+
+    protected async Task ClearSearch()
+    {
+        SearchTerm = string.Empty;
+        purchase = await purchaseService.GetSearchByPurchase(SearchTerm, Page);
+        PageHistoryState.AddPageToHistory(UriHelper.Uri);
+        StateHasChanged();
+    }
+
+    protected void PagerPageChanged(int page)
+    {
+        UriHelper.NavigateTo("/person/" + page);
+        PageHistoryState.AddPageToHistory(UriHelper.Uri);
+    }
+
+    private async void DeletePerson(PurchaseMaster _purchase)
+    {
+        await purchaseService.DeletePurchaseMaster(_purchase.Id);
+        purchase = await purchaseService.GetSearchByPurchase(null, Page);
+        StateHasChanged();
+    }
+}

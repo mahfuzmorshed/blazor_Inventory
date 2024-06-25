@@ -1,0 +1,67 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<Nullable>disable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+	</PropertyGroup>
+	<ItemGroup>
+	  <Compile Remove="Pages\Upload\**" />
+	  <Compile Remove="Services\**" />
+	  <Content Remove="Pages\Upload\**" />
+	  <Content Remove="Services\**" />
+	  <EmbeddedResource Remove="Pages\Upload\**" />
+	  <EmbeddedResource Remove="Services\**" />
+	  <None Remove="Pages\Upload\**" />
+	  <None Remove="Services\**" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Content Remove="Pages\Dashboard.razor" />
+	  <Content Remove="Pages\Item\Add.razor" />
+	  <Content Remove="Pages\Item\Form.razor" />
+	  <Content Remove="Pages\Item\List.razor" />
+	  <Content Remove="Pages\Item\Update.razor" />
+	  <Content Remove="Pages\Item\View.razor" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Compile Include="Services\IPurchaseService.cs" />
+	  <Compile Include="Services\IItemService.cs" />
+	  <Compile Include="Services\IUserService.cs" />
+	  <Compile Include="Services\PurchaseService.cs" />
+	  <Compile Include="Services\ItemService.cs" />
+	  <Compile Include="Services\UserService.cs" />
+	</ItemGroup>
+	<ItemGroup>
+	  <None Include="Pages\Dashboard.razor" />
+	  <None Include="Pages\Item\Add.razor" />
+	  <None Include="Pages\Item\Form.razor" />
+	  <None Include="Pages\Item\List.razor" />
+	  <None Include="Pages\Item\Update.razor" />
+	  <None Include="Pages\Item\View.razor" />
+	  <None Include="Pages\Purchase\Add.razor" />
+	  <None Include="Pages\Purchase\Form.razor" />
+	  <None Include="Pages\Purchase\List.razor" />
+	  <None Include="Pages\Purchase\Update.razor" />
+	  <None Include="Pages\Purchase\View.razor" />
+	  <None Include="Pages\Users\Form.razor" />
+	  <None Include="Pages\Users\Logout.razor" />
+	  <None Include="Shared\Alert.razor" />
+	  <None Include="Shared\MainLayout.razor" />
+	  <None Include="Shared\Pager.razor" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Inventory.Shared\Inventory.Shared.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="FluentValidation" Version="11.4.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Blazor.HttpClient" Version="3.2.0-preview3.20168.3" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.2" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.2" PrivateAssets="all" />
+		<PackageReference Include="System.Net.Http.Json" Version="7.0.0" />
+	</ItemGroup>
+	<ItemGroup>
+	  <UpToDateCheckInput Remove="Pages\Dashboard.razor" />
+	</ItemGroup>
+	<ItemGroup>
+	  <_ContentIncludedByDefault Remove="Pages\Dashboard.razor" />
+	</ItemGroup>
+</Project>

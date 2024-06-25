@@ -1,0 +1,54 @@
+@page "/purchase/updatePurchase/{id}"
+@attribute [Authorize]
+@inject Inventory.Client.Shared.IAlertService AlertService
+@inject Inventory.Client.Services.IPurchaseService purchaseService
+@inject NavigationManager navManager
+@inject Inventory.Client.Shared.PageHistoryState PageHistoryState
+
+<h1>Edit Person</h1>
+<br/>
+
+<Form ButtonText="Update Person" person="@purchase" loading="@loading"
+            OnValidSubmit="@UpdatePerson" />
+
+@code {
+    bool loading = false;
+    
+    [Parameter]
+    public string Id { get; set; }
+
+    PurchaseMaster purchase = new PurchaseMaster
+        {
+            purchaseDetails = new List<PurchaseDetails>
+        {
+            new PurchaseDetails {ItemId=0, Price=0, Quantity=0}
+        }
+    };
+    
+    protected async override Task OnParametersSetAsync()
+    {
+       purchase = await purchaseService.GetPurchaseMaster(int.Parse(Id));
+    }
+
+    async Task UpdatePerson()
+    {
+        loading = true;
+        try
+        {
+            await purchaseService.UpdatePurchaseMaster(purchase);
+            AlertService.Success("Purchase updated successfully", keepAfterRouteChange: true);
+            if (PageHistoryState.CanGoBack()){
+                navManager.NavigateTo(PageHistoryState.GetGoBackPage());
+            }
+            else{
+                navManager.NavigateTo("/purchase/1");
+            } 
+        }
+        catch (Exception ex)
+        {
+            AlertService.Error(ex.Message);
+            loading = false;
+            StateHasChanged();
+        }
+    }
+}

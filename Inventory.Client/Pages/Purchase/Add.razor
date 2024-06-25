@@ -1,0 +1,45 @@
+@page "/purchase/createpurchase"
+@attribute [Authorize]
+@inject Inventory.Client.Shared.IAlertService AlertService
+@inject Inventory.Client.Services.IPurchaseService purchaseService
+@inject NavigationManager navManager
+@inject Inventory.Client.Shared.PageHistoryState PageHistoryState
+
+<h1>Create Person</h1>
+<br/>
+
+<Form ButtonText="Create Person" person="@person" loading="@loading"
+            OnValidSubmit="@CreatePerson" />
+
+@code {
+    bool loading = false;
+
+    PurchaseMaster person = new PurchaseMaster
+        {
+        purchaseDetails = new List<PurchaseDetails>
+        {
+            new PurchaseDetails {ItemId=0, Price=0, Quantity=0}   
+        }
+    };
+    async Task CreatePerson()
+    {
+        loading = true;
+        try
+        {
+            await purchaseService.AddPurchaseMaster(person);
+            AlertService.Success("Purchase completed successfully", keepAfterRouteChange: true);
+            if (PageHistoryState.CanGoBack()){
+                navManager.NavigateTo(PageHistoryState.GetGoBackPage());
+            }
+            else{
+                navManager.NavigateTo("/purchase/1");
+            } 
+        }
+        catch (Exception ex)
+        {
+            AlertService.Error(ex.Message);
+            loading = false;
+            StateHasChanged();
+        }
+    }
+}

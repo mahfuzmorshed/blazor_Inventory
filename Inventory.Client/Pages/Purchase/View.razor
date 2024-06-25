@@ -1,0 +1,71 @@
+@page "/purchase/viewpurchase/{id}"
+@inject Inventory.Client.Services.IPurchaseService purchaseService
+@inject NavigationManager navManager
+@inject Inventory.Client.Shared.PageHistoryState PageHistoryState
+
+<h1>View Person</h1>
+<br />
+
+<table class="table col-md-6">
+    <tbody>
+        <tr>
+            <th scope="row">Id</th>
+            <td>@purchase.Id</td>
+        </tr>
+     
+    </tbody>
+</table>
+
+<hr />
+<h3>Addresses</h3>
+<hr />
+
+<table class="table">
+    <thead class="thead-light">
+        <tr>
+            <th>Id</th>
+            <th>Item</th>
+            <th>Qty</th>
+            <th>Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var d in purchase.purchaseDetails)
+        {
+            <tr>
+                <td>@d.Id</td>
+                <td>@d.ItemId</td>
+                <td>@d.Quantity</td>
+                <td>@d.Price</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="form-group">
+    @if (PageHistoryState.CanGoBack())
+    {
+        <NavLink href="@PageHistoryState.GetGoBackPage()" class="btn btn-link">Back</NavLink>
+    }
+    else
+    {
+        <NavLink href="/person/1" class="btn btn-link">Back</NavLink>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public string Id { get; set; }
+
+    PurchaseMaster purchase = new PurchaseMaster
+        {
+            purchaseDetails = new List<PurchaseDetails>
+        {
+            new PurchaseDetails {ItemId=0, Price=0, Quantity=0}
+        }
+        };
+
+    protected async override Task OnParametersSetAsync()
+    {
+        purchase = await purchaseService.GetPurchaseMaster(int.Parse(Id));
+    }
+}

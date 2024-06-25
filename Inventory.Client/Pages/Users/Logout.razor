@@ -1,0 +1,9 @@
+@page "/user/logout"
+@inject Inventory.Client.Services.IUserService UserService
+
+@code {
+    protected override async void OnInitialized()
+    {
+        await UserService.Logout();
+    }
+}
