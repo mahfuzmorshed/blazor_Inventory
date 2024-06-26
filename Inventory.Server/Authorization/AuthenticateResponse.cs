@@ -1,5 +1,4 @@
 namespace Inventory.Server.Authorization;
-using BZ.Shared.Model;
 
 public class AuthenticateResponse
 {

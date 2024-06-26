@@ -15,11 +15,6 @@
 	  <None Remove="Services\**" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Content Remove="Pages\Item\Form.razor" />
-	  <Content Remove="Pages\Item\Update.razor" />
-	  <Content Remove="Pages\Item\View.razor" />
-	</ItemGroup>
-	<ItemGroup>
 	  <Compile Include="Services\IPurchaseService.cs" />
 	  <Compile Include="Services\IItemService.cs" />
 	  <Compile Include="Services\IUserService.cs" />
@@ -28,9 +23,6 @@
 	  <Compile Include="Services\UserService.cs" />
 	</ItemGroup>
 	<ItemGroup>
-	  <None Include="Pages\Item\Form.razor" />
-	  <None Include="Pages\Item\Update.razor" />
-	  <None Include="Pages\Item\View.razor" />
 	  <None Include="Pages\Purchase\Add.razor" />
 	  <None Include="Pages\Purchase\Form.razor" />
 	  <None Include="Pages\Purchase\List.razor" />

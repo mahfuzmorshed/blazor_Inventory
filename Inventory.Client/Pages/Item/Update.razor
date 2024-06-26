@@ -1,52 +1,64 @@
-@page "/person/updateperson/{id}"
+﻿@page "/item/update/{id}"
 @attribute [Authorize]
-@inject IAlertService AlertService
-@inject IPersonService PersonService
+@inject Shared.IAlertService AlertService
+@inject Services.IItemService itemService
 @inject NavigationManager navManager
-@inject BZ.Client.Shared.PageHistoryState PageHistoryState
+@inject Shared.PageHistoryState PageHistoryState
 
-<h1>Edit Person</h1>
-<br/>
-
-<Form ButtonText="Update Person" person="@person" loading="@loading"
-            OnValidSubmit="@UpdatePerson" />
-
+<h3>Edit Item</h3>
+<br />
+<EditForm Model="@item" OnValidSubmit="@UpdateItem">
+    <FluentValidator TValidator="ItemValidator" />
+    <div class="form-group">
+        <label>File Name :</label>
+        <div>
+            <InputText @bind-Value="@item.Name" class="form-control col-sm-3" />
+            <ValidationMessage For="@(() => item.Name)" />
+        </div>
+    </div>
+    <div class="form-group">
+        <button disabled="@loading" class="btn btn-primary">
+            @if (loading)
+            {
+                <span class="spinner-border spinner-border-sm mr-1"></span>
+            }
+            Save File
+        </button>
+        @if (PageHistoryState.CanGoBack())
+        {
+            <NavLink href="@PageHistoryState.GetGoBackPage()" class="btn btn-link">Back</NavLink>
+        }
+        else
+        {
+            <NavLink href="/item/1" class="btn btn-link">Back</NavLink>
+        }
+    </div>
+</EditForm>
 @code {
     bool loading = false;
-    
+
     [Parameter]
     public string Id { get; set; }
-
-    BZ.Shared.Model.Person person = new BZ.Shared.Model.Person
+    Item item = new Item
         {
-        FirstName = "",
-        LastName = "",
-        Gender = Gender.Other,
-        PhoneNumber = "",
-        Addresses = new List<Address>
-        {
-            new Address {Street="", City="", State="", ZipCode=""}   
-        }
-    };
-    
+            Name = ""
+        };
     protected async override Task OnParametersSetAsync()
     {
-       person = await PersonService.GetPerson(int.Parse(Id));
+        item = await itemService.GetItem(int.Parse(Id));
     }
 
-    async Task UpdatePerson()
+    async Task UpdateItem()
     {
         loading = true;
         try
         {
-            await PersonService.UpdatePerson(person);
-            AlertService.Success("Person updated successfully", keepAfterRouteChange: true);
-            if (PageHistoryState.CanGoBack()){
+            await itemService.UpdateItem(item);
+            AlertService.Success("Item Update successfully", keepAfterRouteChange: true);
+            if (PageHistoryState.CanGoBack())
                 navManager.NavigateTo(PageHistoryState.GetGoBackPage());
-            }
-            else{
-                navManager.NavigateTo("/person/1");
-            } 
+            else
+                navManager.NavigateTo("/item/1");
         }
         catch (Exception ex)
         {

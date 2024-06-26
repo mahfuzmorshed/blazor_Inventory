@@ -7,8 +7,33 @@
 
 <h1>Create Item</h1>
 <br />
-<Form ButtonText="Create Person" item="@item" loading="@loading"
-      OnValidSubmit="@CreateItem" />
+<EditForm Model="@item" OnValidSubmit="@CreateItem">
+    <FluentValidator TValidator="ItemValidator" />
+    <div class="form-group">
+        <label>File Name :</label>
+        <div>
+            <InputText @bind-Value="@item.Name" class="form-control col-sm-3" />
+            <ValidationMessage For="@(() => item.Name)" />
+        </div>
+    </div>
+    <div class="form-group">
+        <button disabled="@loading" class="btn btn-primary">
+            @if (loading)
+            {
+                <span class="spinner-border spinner-border-sm mr-1"></span>
+            }
+            Save File
+        </button>
+        @if (PageHistoryState.CanGoBack())
+        {
+            <NavLink href="@PageHistoryState.GetGoBackPage()" class="btn btn-link">Back</NavLink>
+        }
+        else
+        {
+            <NavLink href="/item/1" class="btn btn-link">Back</NavLink>
+        }
+    </div>
+</EditForm>
 @code {
     bool loading = false;
     Item item = new Item
