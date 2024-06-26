@@ -1,25 +1,21 @@
-@page "/item/createitem"
+﻿@page "/item/createitem"
 @attribute [Authorize]
 @inject Inventory.Client.Shared.IAlertService AlertService
 @inject Inventory.Client.Services.IItemService itemService
 @inject NavigationManager navManager
 @inject Inventory.Client.Shared.PageHistoryState PageHistoryState
 
-<h1>Create Person</h1>
+<h1>Create Item</h1>
 <br />
-
 <Form ButtonText="Create Person" item="@item" loading="@loading"
-      OnValidSubmit="@CreatePerson" />
-
+      OnValidSubmit="@CreateItem" />
 @code {
     bool loading = false;
-
     Item item = new Item
         {
-            Name = "",
+            Name = ""
         };
-    async Task CreatePerson()
-    {
+    async Task CreateItem(){
         loading = true;
         try
         {
@@ -37,4 +33,5 @@
             StateHasChanged();
         }
     }
+  
 }

@@ -15,9 +15,7 @@
 	  <None Remove="Services\**" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Content Remove="Pages\Item\Add.razor" />
 	  <Content Remove="Pages\Item\Form.razor" />
-	  <Content Remove="Pages\Item\List.razor" />
 	  <Content Remove="Pages\Item\Update.razor" />
 	  <Content Remove="Pages\Item\View.razor" />
 	</ItemGroup>
@@ -30,9 +28,7 @@
 	  <Compile Include="Services\UserService.cs" />
 	</ItemGroup>
 	<ItemGroup>
-	  <None Include="Pages\Item\Add.razor" />
 	  <None Include="Pages\Item\Form.razor" />
-	  <None Include="Pages\Item\List.razor" />
 	  <None Include="Pages\Item\Update.razor" />
 	  <None Include="Pages\Item\View.razor" />
 	  <None Include="Pages\Purchase\Add.razor" />
