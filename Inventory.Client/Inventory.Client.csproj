@@ -15,7 +15,6 @@
 	  <None Remove="Services\**" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Content Remove="Pages\Dashboard.razor" />
 	  <Content Remove="Pages\Item\Add.razor" />
 	  <Content Remove="Pages\Item\Form.razor" />
 	  <Content Remove="Pages\Item\List.razor" />
@@ -31,7 +30,6 @@
 	  <Compile Include="Services\UserService.cs" />
 	</ItemGroup>
 	<ItemGroup>
-	  <None Include="Pages\Dashboard.razor" />
 	  <None Include="Pages\Item\Add.razor" />
 	  <None Include="Pages\Item\Form.razor" />
 	  <None Include="Pages\Item\List.razor" />
@@ -57,11 +55,5 @@
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.2" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.2" PrivateAssets="all" />
 		<PackageReference Include="System.Net.Http.Json" Version="7.0.0" />
-	</ItemGroup>
-	<ItemGroup>
-	  <UpToDateCheckInput Remove="Pages\Dashboard.razor" />
-	</ItemGroup>
-	<ItemGroup>
-	  <_ContentIncludedByDefault Remove="Pages\Dashboard.razor" />
 	</ItemGroup>
 </Project>
