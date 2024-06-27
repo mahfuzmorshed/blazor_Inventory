@@ -31,12 +31,12 @@
         <div class="form-row">
             <div class="form-group col-md-3">
                 <InputSelect id="ItemId" class="form-control" @bind-Value="d.ItemId">
+                    <option disabled>Please Select</option>
                     @foreach (var i in itmLst.Results)
                     {
                         <option value="@i.ItemId">@i.Name</option>
                     }
                 </InputSelect>
-                <InputText id="ItemId" class="form-control" placeholder="item" @bind-Value="d.ItemId" />
                 <ValidationMessage For="@(() => d.ItemId)" />
             </div>
             <div class="form-group col-md-3">
@@ -90,7 +90,7 @@
 
     protected async override Task OnParametersSetAsync()
     {
-        itmLst = await itemService.GetItems(null,"");
+        itmLst = await itemService.GetItems(null,"1");
     }
     public void OnDetailsDelete(PurchaseMasterViewModel purchase, PurchaseDetailsViewModel details)
     {
