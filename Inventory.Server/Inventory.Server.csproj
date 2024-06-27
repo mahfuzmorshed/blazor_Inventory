@@ -14,6 +14,21 @@
 	  <Compile Remove="Services\UploadProcessorJob.cs" />
 	</ItemGroup>
 	<ItemGroup>
+	  <None Remove="wwwroot\Reports\rdPurchase.rdlc" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Compile Include="wwwroot\Reports\ds.cs" />
+	  <Compile Include="wwwroot\Reports\ds.Designer.cs">
+	    <DependentUpon>ds.xsd</DependentUpon>
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	  </Compile>
+	</ItemGroup>
+	<ItemGroup>
+	  <EmbeddedResource Include="wwwroot\Reports\rdPurchase.rdlc" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="AspNetCore.Reporting" Version="2.1.0" />
 		<PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
 		<PackageReference Include="Bogus" Version="34.0.2" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="7.0.2" />
@@ -22,11 +37,21 @@
 		<PackageReference Include="Microsoft.IdentityModel.Tokens" Version="7.6.2" />
 		<PackageReference Include="Quartz.Extensions.Hosting" Version="3.5.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+		<PackageReference Include="System.CodeDom" Version="8.0.0" />
 		<PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
 		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.6.2" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Inventory.Client\Inventory.Client.csproj" />
 		<ProjectReference Include="..\Inventory.Shared\Inventory.Shared.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+	  <None Include="wwwroot\Reports\ds.xsc" />
+	  <None Include="wwwroot\Reports\ds.xsd">
+	    <SubType>Designer</SubType>
+	    <LastGenOutput>ds.Designer.cs</LastGenOutput>
+	    <Generator>MSDataSetGenerator</Generator>
+	  </None>
+	  <None Include="wwwroot\Reports\ds.xss" />
 	</ItemGroup>
 </Project>
