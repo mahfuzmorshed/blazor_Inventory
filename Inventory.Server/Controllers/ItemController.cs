@@ -31,6 +31,7 @@ namespace Inventory.Server.Controllers
         [HttpPost]
         public async Task<ActionResult> AddItem(Item obj)
         {
+           var user= this.User.Identities;
             return Ok(await _itemRepository.AddItem(obj));
         }
 

@@ -1,9 +1,10 @@
 ﻿@page "/item/createitem"
 @attribute [Authorize]
-@inject Inventory.Client.Shared.IAlertService AlertService
-@inject Inventory.Client.Services.IItemService itemService
+@inject Shared.IAlertService AlertService
+@inject Services.IItemService itemService
+@inject Services.IUserService userService
 @inject NavigationManager navManager
-@inject Inventory.Client.Shared.PageHistoryState PageHistoryState
+@inject Shared.PageHistoryState PageHistoryState
 
 <h1>Create Item</h1>
 <br />
@@ -36,14 +37,18 @@
 </EditForm>
 @code {
     bool loading = false;
+
     Item item = new Item
         {
-            Name = ""
+            Name = "",
+            CreateBy="",
         };
     async Task CreateItem(){
         loading = true;
         try
         {
+            item.CreateBy = userService.User.Username;
+            item.CreateDate = DateTime.Now;
             await itemService.AddItem(item);
             AlertService.Success("Item save successfully", keepAfterRouteChange: true);
             if (PageHistoryState.CanGoBack())

@@ -9,17 +9,16 @@ using System.Threading.Tasks;
 
 namespace Inventory.Shared.Model
 {
-    [Table("PurchaseDetails", Schema = "dbo")]
-    public class PurchaseDetails
+    public class PurchaseDetailsViewModel
     {
         public int Id { get; set; }
-        public int PurchaseMasterId { get; set; }
+        public string PurchaseMasterId { get; set; }
         [Required(ErrorMessage = "* Required")]
-        public int ItemId { get; set; }
+        public string ItemId { get; set; }
         [DefaultValue(1)]
         [Required(ErrorMessage = "* Required")]
-        public int Quantity {  get; set; }
+        public string Quantity {  get; set; }
         [Required(ErrorMessage = "* Required")]
-        public decimal Price {  get; set; }
+        public string Price {  get; set; }
     }
 }

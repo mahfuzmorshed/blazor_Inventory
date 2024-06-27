@@ -1,7 +1,17 @@
-@inject Inventory.Client.Shared.PageHistoryState PageHistoryState
+@using System.Globalization
+@inject Services.IItemService itemService 
+@inject Shared.PageHistoryState PageHistoryState
 
 <EditForm Model="@purchase" OnValidSubmit="@OnValidSubmit">
-    <FluentValidator TValidator="PurchaseMasterValidator" />
+    <FluentValidator TValidator="PurchaseMasterValidatorViewModel" />
+    <div class="form-group">
+        <label>Invoice :</label>
+        <div>
+            <InputText @bind-Value="@purchase.InvoiceNo" class="form-control col-sm-3" />
+            <ValidationMessage For="@(() => purchase.InvoiceNo)" />
+        </div>
+    </div>
+
     <hr />
     <h3>Purchase</h3>
     <div class="form-row">
@@ -15,26 +25,32 @@
             <label>Quantity</label>
         </div>
     </div>
-    <ValidationMessage For="@(() => purchase.purchaseDetails)" />
-    @foreach (var d in purchase.purchaseDetails)
+    <ValidationMessage For="@(() => purchase.purchaseDetailsViewModel)" />
+    @foreach (var d in purchase.purchaseDetailsViewModel)
     {
         <div class="form-row">
             <div class="form-group col-md-3">
-                <InputText id="ItemId" class="form-control" placeholder="item" />
+                <InputSelect id="ItemId" class="form-control" @bind-Value="d.ItemId">
+                    @foreach (var i in itmLst.Results)
+                    {
+                        <option value="@i.ItemId">@i.Name</option>
+                    }
+                </InputSelect>
+                <InputText id="ItemId" class="form-control" placeholder="item" @bind-Value="d.ItemId" />
                 <ValidationMessage For="@(() => d.ItemId)" />
             </div>
-        </div>
-        <div class="form-group col-md-3">
-            <InputText id="Price" class="form-control" placeholder="Price" />
-            <ValidationMessage For="@(() => d.Price)" />
-        </div>
-        <div class="form-group col-md-3">
-            <InputText id="Quantity" class="form-control" placeholder="Quantity" />
-            <ValidationMessage For="@(() => d.Quantity)" />
-        </div>
+            <div class="form-group col-md-3">
+                <InputText id="Price" class="form-control" placeholder="Price" @bind-Value="d.Price" />
+                <ValidationMessage For="@(() => d.Price)" />
+            </div>
+            <div class="form-group col-md-3">
+                <InputText id="Quantity" class="form-control" placeholder="Quantity" @bind-Value="d.Quantity" />
+                <ValidationMessage For="@(() => d.Quantity)" />
+            </div>
 
-        <div class="Form-group">
-            <a href="javascript:void(0)" class="btn btn-danger" @onclick="@(()=>OnDetailsDelete(purchase, d))">X</a>
+            <div class="Form-group">
+                <a href="javascript:void(0)" class="btn btn-danger" @onclick="@(()=>OnDetailsDelete(purchase, d))">X</a>
+            </div>
         </div>
     }
     <div class="form-group">
@@ -62,21 +78,27 @@
 
 @code {
     [Parameter]
-    public Inventory.Shared.Model.PurchaseMaster purchase { get; set; }
+    public PurchaseMasterViewModel purchase { get; set; }
     [Parameter]
     public string ButtonText { get; set; } = "Save";
     [Parameter]
     public bool loading { get; set; } = false;
     [Parameter]
     public EventCallback OnValidSubmit { get; set; }
+    
+    protected PagedResultT<Item> itmLst;
 
-    public void OnDetailsDelete(Inventory.Shared.Model.PurchaseMaster purchase, Inventory.Shared.Model.PurchaseDetails details)
+    protected async override Task OnParametersSetAsync()
     {
-        purchase.purchaseDetails.Remove(details);
+        itmLst = await itemService.GetItems(null,"");
+    }
+    public void OnDetailsDelete(PurchaseMasterViewModel purchase, PurchaseDetailsViewModel details)
+    {
+        purchase.purchaseDetailsViewModel.Remove(details);
     }
 
-    public void OnDetailsAdd(Inventory.Shared.Model.PurchaseMaster purchase)
+    public void OnDetailsAdd(PurchaseMasterViewModel purchase)
     {
-        purchase.purchaseDetails.Add(new PurchaseDetails { ItemId = 0, Price = 0, Quantity = 0 });
+        purchase.purchaseDetailsViewModel.Add(new PurchaseDetailsViewModel { ItemId = "", Price = "", Quantity = "" });
     }
 }

@@ -2,6 +2,7 @@
 @attribute [Authorize]
 @inject Shared.IAlertService AlertService
 @inject Services.IItemService itemService
+@inject Services.IUserService userService
 @inject NavigationManager navManager
 @inject Shared.PageHistoryState PageHistoryState
 
@@ -53,6 +54,8 @@
         loading = true;
         try
         {
+            item.UpdateBy = userService.User.Username;
+            item.UpdateDate = DateTime.Now;
             await itemService.UpdateItem(item);
             AlertService.Success("Item Update successfully", keepAfterRouteChange: true);
             if (PageHistoryState.CanGoBack())

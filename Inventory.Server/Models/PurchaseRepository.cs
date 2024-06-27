@@ -99,7 +99,7 @@ namespace Inventory.Server.Models
                         var newAddress = new PurchaseDetails
                         {
                             ItemId = addressModel.ItemId,
-                            MasterId = addressModel.MasterId,
+                            PurchaseMasterId = addressModel.PurchaseMasterId,
                             Price = addressModel.Price,
                             Quantity = addressModel.Quantity,
                         };

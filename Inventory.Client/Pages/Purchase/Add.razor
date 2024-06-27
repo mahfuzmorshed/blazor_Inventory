@@ -1,39 +1,54 @@
 @page "/purchase/createpurchase"
 @attribute [Authorize]
-@inject Inventory.Client.Shared.IAlertService AlertService
-@inject Inventory.Client.Services.IPurchaseService purchaseService
+@inject Shared.IAlertService AlertService
+@inject Services.IPurchaseService purchaseService
+@inject Services.IUserService userService
 @inject NavigationManager navManager
-@inject Inventory.Client.Shared.PageHistoryState PageHistoryState
+@inject Shared.PageHistoryState PageHistoryState
 
-<h1>Create Person</h1>
-<br/>
+<h1>Create purchase</h1>
+<br />
 
-<Form ButtonText="Create Person" person="@person" loading="@loading"
-            OnValidSubmit="@CreatePerson" />
+<Form ButtonText="Purchase" purchase="@purchase" loading="@loading"
+      OnValidSubmit="@CreatePurchase" />
 
 @code {
     bool loading = false;
 
-    PurchaseMaster person = new PurchaseMaster
+    PurchaseMasterViewModel purchase = new PurchaseMasterViewModel
         {
-        purchaseDetails = new List<PurchaseDetails>
+            InvoiceNo = "",
+            purchaseDetailsViewModel = new List<PurchaseDetailsViewModel>
         {
-            new PurchaseDetails {ItemId=0, Price=0, Quantity=0}   
+            new PurchaseDetailsViewModel {ItemId="", Price="", Quantity=""}
         }
-    };
-    async Task CreatePerson()
+        };
+    async Task CreatePurchase()
     {
         loading = true;
         try
         {
-            await purchaseService.AddPurchaseMaster(person);
+            List<PurchaseDetails> pd_lst = new List<PurchaseDetails>();
+            foreach (var d in purchase.purchaseDetailsViewModel)
+                pd_lst.Add(new PurchaseDetails {ItemId=int.Parse( d.ItemId),Quantity=int.Parse(d.Quantity),Price=decimal.Parse(d.Price) });
+            PurchaseMaster pur_obj = new PurchaseMaster
+                {
+                    InvoiceNo = purchase.InvoiceNo,
+                    CreateBy = userService.User.Username,
+                    CreateDate = DateTime.Now,
+                    purchaseDetails = pd_lst
+                };
+
+        await purchaseService.AddPurchaseMaster(pur_obj);
             AlertService.Success("Purchase completed successfully", keepAfterRouteChange: true);
-            if (PageHistoryState.CanGoBack()){
+            if (PageHistoryState.CanGoBack())
+            {
                 navManager.NavigateTo(PageHistoryState.GetGoBackPage());
             }
-            else{
+            else
+            {
                 navManager.NavigateTo("/purchase/1");
-            } 
+            }
         }
         catch (Exception ex)
         {
